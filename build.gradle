@@ -9,8 +9,8 @@ repositories {
     mavenCentral()
 }
 
-project.ext.lwjglVersion = "3.3.6"
-project.ext.lwjglNatives = "natives-windows"
+project.ext.lwjglVersion = "3.4.1"
+project.ext.lwjglNatives = "natives-linux"
 
 dependencies {
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
