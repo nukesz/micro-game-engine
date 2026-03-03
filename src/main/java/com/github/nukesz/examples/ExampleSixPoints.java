@@ -23,9 +23,22 @@ public class ExampleSixPoints extends Example {
                 -0.4f, 0.6f, 0.0f,
                 -0.8f, 0.0f, 0.0f,
                 -0.4f, -0.6f, 0.0f,
-                0.4f, -0.6f, 0.0f};
+                0.4f, -0.6f, 0.0f,
+        };
         Attribute positionAttribute = new Attribute("vec3", positionData);
         positionAttribute.associateVariable(shaderProgram.getProgramId(), "position");
+
+        float[] colorData = {
+                1.0f, 0.0f, 0.0f,
+                1.0f, 0.0f, 0.0f,
+                1.0f, 0.0f, 0.0f,
+                1.0f, 0.0f, 0.0f,
+                1.0f, 0.0f, 0.0f,
+                1.0f, 0.0f, 0.0f,
+        };
+        Attribute colorAttribute = new Attribute("vec3", colorData);
+        colorAttribute.associateVariable(shaderProgram.getProgramId(), "color");
+
     }
 
     @Override

@@ -15,12 +15,13 @@ public class Mesh {
     private final int vertexCount;
     private List<Integer> vboIds = new ArrayList<>();
 
-    public Mesh(float[] positions, int vertexCount) {
+    public Mesh(float[] positions, float[] colors, int vertexCount) {
         this.vertexCount = vertexCount;
 
         this.vaoId = glGenVertexArrays();
         glBindVertexArray(vaoId);
 
+        // Position VBO
         int positionVboId = glGenBuffers();
         vboIds.add(positionVboId);
         FloatBuffer positionsBuffer = MemoryUtil.memCallocFloat(positions.length);
@@ -30,10 +31,21 @@ public class Mesh {
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 
+        // Colors VBO
+        int colorsVboId = glGenBuffers();
+        vboIds.add(colorsVboId);
+        FloatBuffer colorsBuffer = MemoryUtil.memCallocFloat(colors.length);
+        colorsBuffer.put(0, colors);
+        glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
+        glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
+
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
 
         MemoryUtil.memFree(positionsBuffer);
+        MemoryUtil.memFree(colorsBuffer);
     }
 
     public int getVaoId() {

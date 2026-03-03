@@ -7,7 +7,7 @@ import com.github.nukesz.ShaderProgram;
 import static org.lwjgl.opengl.GL30.*;
 
 
-public class ExampleMesh extends Example {
+public class ExampleQuad extends Example {
 
     private ShaderProgram shaderProgram;
     private Mesh mesh;
@@ -16,19 +16,25 @@ public class ExampleMesh extends Example {
     public void init(InputHandler inputHandler) {
         shaderProgram = new ShaderProgram("position.vert", "color.frag");
 
-        float[] positions = new float[]{
-                0.0f, 0.5f, 0.0f,
+        float[] positions = new float[] {
+                -0.5f,  0.5f, 0.0f,
+                -0.5f, -0.5f, 0.0f,
+                0.5f,  0.5f, 0.0f,
+                0.5f,  0.5f, 0.0f,
                 -0.5f, -0.5f, 0.0f,
                 0.5f, -0.5f, 0.0f,
         };
 
-        float[] colors = new float[]{
-                1.0f, 0.0f, 0.0f,
-                0.0f, 1.0f, 0.0f,
-                0.0f, 0.0f, 1.0f,
+        float[] colors = new float[] {
+                0.5f,  0.5f, 0.0f,
+                0.5f, 0.5f, 0.0f,
+                0.5f,  0.5f, 0.0f,
+                0.5f,  0.5f, 0.0f,
+                0.5f, 0.5f, 0.0f,
+                0.5f, -0.5f, 0.0f,
         };
 
-        mesh = new Mesh(positions, colors, 3);
+        mesh = new Mesh(positions, colors, 6);
     }
 
     @Override
@@ -48,6 +54,6 @@ public class ExampleMesh extends Example {
     }
 
     public static void main(String[] args) {
-        run(new ExampleMesh());
+        run(new ExampleQuad());
     }
 }

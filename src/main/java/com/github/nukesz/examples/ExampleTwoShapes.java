@@ -17,15 +17,26 @@ public class ExampleTwoShapes extends Example {
         shaderProgram = new ShaderProgram("position.vert", "color.frag");
         GL30.glLineWidth(5);
 
+        // Triangle
         vaoTriangleId = GL30.glGenVertexArrays();
         GL30.glBindVertexArray(vaoTriangleId);
         float[] positionDataTriangle = {
                 -0.5f, 0.8f, 0.0f,
                 -0.2f, 0.2f, 0.0f,
-                -0.8f, 0.2f, 0.0f};
+                -0.8f, 0.2f, 0.0f
+        };
         Attribute positionAttributeTriangle = new Attribute("vec3", positionDataTriangle);
         positionAttributeTriangle.associateVariable(shaderProgram.getProgramId(), "position");
 
+        float[] colorDataTriangle = {
+                1.0f, 0.0f, 0.0f,
+                1.0f, 0.0f, 0.0f,
+                1.0f, 0.0f, 0.0f,
+        };
+        Attribute colorAttributeTriangle = new Attribute("vec3", colorDataTriangle);
+        colorAttributeTriangle.associateVariable(shaderProgram.getProgramId(), "color");
+
+        // Square
         vaoSquareId = GL30.glGenVertexArrays();
         GL30.glBindVertexArray(vaoSquareId);
         float[] positionDataSquare = {
@@ -35,6 +46,15 @@ public class ExampleTwoShapes extends Example {
                 0.2f, 0.8f, 0.0f};
         Attribute positionAttributeSquare = new Attribute("vec3", positionDataSquare);
         positionAttributeSquare.associateVariable(shaderProgram.getProgramId(), "position");
+
+        float[] squareDataTriangle = {
+                0.0f, 1.0f, 0.0f,
+                0.0f, 1.0f, 0.0f,
+                0.0f, 1.0f, 0.0f,
+                0.0f, 1.0f, 0.0f,
+        };
+        Attribute squareAttributeTriangle = new Attribute("vec3", squareDataTriangle);
+        squareAttributeTriangle.associateVariable(shaderProgram.getProgramId(), "color");
     }
 
     @Override
