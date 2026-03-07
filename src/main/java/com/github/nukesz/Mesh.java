@@ -1,6 +1,7 @@
 package com.github.nukesz;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +14,10 @@ public class Mesh {
 
     private final int vaoId;
     private final int vertexCount;
-    private List<Integer> vboIds = new ArrayList<>();
+    private final List<Integer> vboIds = new ArrayList<>();
 
-    public Mesh(float[] positions, float[] colors, int vertexCount) {
-        this.vertexCount = vertexCount;
+    public Mesh(float[] positions, float[] colors, int[] indices) {
+        this.vertexCount = indices.length;
 
         this.vaoId = glGenVertexArrays();
         glBindVertexArray(vaoId);
@@ -41,11 +42,20 @@ public class Mesh {
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
 
+        // Indices EBO
+        int eboId = glGenBuffers();
+        vboIds.add(eboId);
+        IntBuffer indicesBuffer = MemoryUtil.memCallocInt(indices.length);
+        indicesBuffer.put(0, indices);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
+
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
 
         MemoryUtil.memFree(positionsBuffer);
         MemoryUtil.memFree(colorsBuffer);
+        MemoryUtil.memFree(indicesBuffer);
     }
 
     public int getVaoId() {

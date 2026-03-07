@@ -17,24 +17,25 @@ public class ExampleQuad extends Example {
         shaderProgram = new ShaderProgram("position.vert", "color.frag");
 
         float[] positions = new float[] {
-                -0.5f,  0.5f, 0.0f,
-                -0.5f, -0.5f, 0.0f,
-                0.5f,  0.5f, 0.0f,
-                0.5f,  0.5f, 0.0f,
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
+                -0.5f,  0.5f, 0.0f, // top left
+                 0.5f,  0.5f, 0.0f, // top right
+                 0.5f, -0.5f, 0.0f, // bottom right
+                -0.5f, -0.5f, 0.0f, // bottom left
         };
 
         float[] colors = new float[] {
-                0.5f,  0.5f, 0.0f,
-                0.5f, 0.5f, 0.0f,
-                0.5f,  0.5f, 0.0f,
-                0.5f,  0.5f, 0.0f,
-                0.5f, 0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
+                1.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f,
+                0.0f, 0.0f, 1.0f,
+                0.0f, 0.0f, 0.0f,
         };
 
-        mesh = new Mesh(positions, colors, 6);
+        int[] indices = new int[] {
+                0, 1, 3, // first triangle
+                1, 2, 3  // second triangle
+        };
+
+        mesh = new Mesh(positions, colors, indices);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class ExampleQuad extends Example {
         shaderProgram.bind();
 
         glBindVertexArray(mesh.getVaoId());
-        glDrawArrays(GL_TRIANGLES, 0, mesh.getVertexCount());
+        glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
         shaderProgram.unbind();

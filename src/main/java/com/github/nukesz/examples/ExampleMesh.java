@@ -28,7 +28,11 @@ public class ExampleMesh extends Example {
                 0.0f, 0.0f, 1.0f,
         };
 
-        mesh = new Mesh(positions, colors, 3);
+        int[] indices = new int[]{
+                0, 1, 2
+        };
+
+        mesh = new Mesh(positions, colors, indices);
     }
 
     @Override
@@ -36,7 +40,7 @@ public class ExampleMesh extends Example {
         shaderProgram.bind();
 
         glBindVertexArray(mesh.getVaoId());
-        glDrawArrays(GL_TRIANGLES, 0, mesh.getVertexCount());
+        glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
         shaderProgram.unbind();
