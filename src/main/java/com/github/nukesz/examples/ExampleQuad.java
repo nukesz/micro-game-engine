@@ -16,18 +16,12 @@ public class ExampleQuad extends Example {
     public void init(InputHandler inputHandler) {
         shaderProgram = new ShaderProgram("position.vert", "color.frag");
 
-        float[] positions = new float[] {
-                -0.5f,  0.5f, 0.0f, // top left
-                 0.5f,  0.5f, 0.0f, // top right
-                 0.5f, -0.5f, 0.0f, // bottom right
-                -0.5f, -0.5f, 0.0f, // bottom left
-        };
-
-        float[] colors = new float[] {
-                1.0f, 0.0f, 0.0f,
-                0.0f, 1.0f, 0.0f,
-                0.0f, 0.0f, 1.0f,
-                0.0f, 0.0f, 0.0f,
+        float[] vertices = new float[] {
+                // positions         // colors
+                -0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, // top left
+                 0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 0.0f, // top right
+                 0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f, // bottom right
+                -0.5f, -0.5f, 0.0f,  0.2f, 0.2f, 0.2f, // bottom left
         };
 
         int[] indices = new int[] {
@@ -35,7 +29,7 @@ public class ExampleQuad extends Example {
                 1, 2, 3  // second triangle
         };
 
-        mesh = new Mesh(positions, colors, indices);
+        mesh = new Mesh(vertices, indices);
     }
 
     @Override

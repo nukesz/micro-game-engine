@@ -16,31 +16,27 @@ public class Mesh {
     private final int vertexCount;
     private final List<Integer> vboIds = new ArrayList<>();
 
-    public Mesh(float[] positions, float[] colors, int[] indices) {
+    public Mesh(float[] vertices, int[] indices) {
         this.vertexCount = indices.length;
 
         this.vaoId = glGenVertexArrays();
         glBindVertexArray(vaoId);
 
-        // Position VBO
-        int positionVboId = glGenBuffers();
-        vboIds.add(positionVboId);
-        FloatBuffer positionsBuffer = MemoryUtil.memCallocFloat(positions.length);
-        positionsBuffer.put(0, positions);
-        glBindBuffer(GL_ARRAY_BUFFER, positionVboId);
-        glBufferData(GL_ARRAY_BUFFER, positionsBuffer, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+        // Vertices VBO
+        int verticesVboId = glGenBuffers();
+        vboIds.add(verticesVboId);
+        FloatBuffer verticesBuffer = MemoryUtil.memCallocFloat(vertices.length);
+        verticesBuffer.put(0, vertices);
+        glBindBuffer(GL_ARRAY_BUFFER, verticesVboId);
+        glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
 
-        // Colors VBO
-        int colorsVboId = glGenBuffers();
-        vboIds.add(colorsVboId);
-        FloatBuffer colorsBuffer = MemoryUtil.memCallocFloat(colors.length);
-        colorsBuffer.put(0, colors);
-        glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
-        glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
+        // Position attribute
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 6 * Float.BYTES, 0);
+
+        // Colors attribute
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 6 * Float.BYTES, 3 * Float.BYTES);
 
         // Indices EBO
         int eboId = glGenBuffers();
@@ -53,8 +49,7 @@ public class Mesh {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
 
-        MemoryUtil.memFree(positionsBuffer);
-        MemoryUtil.memFree(colorsBuffer);
+        MemoryUtil.memFree(verticesBuffer);
         MemoryUtil.memFree(indicesBuffer);
     }
 

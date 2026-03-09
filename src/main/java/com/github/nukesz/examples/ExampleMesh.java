@@ -16,23 +16,18 @@ public class ExampleMesh extends Example {
     public void init(InputHandler inputHandler) {
         shaderProgram = new ShaderProgram("position.vert", "color.frag");
 
-        float[] positions = new float[]{
-                0.0f, 0.5f, 0.0f,
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-        };
-
-        float[] colors = new float[]{
-                1.0f, 0.0f, 0.0f,
-                0.0f, 1.0f, 0.0f,
-                0.0f, 0.0f, 1.0f,
+        float[] vertices = new float[]{
+                // positions         // colors
+                 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+                -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+                 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top
         };
 
         int[] indices = new int[]{
                 0, 1, 2
         };
 
-        mesh = new Mesh(positions, colors, indices);
+        mesh = new Mesh(vertices, indices);
     }
 
     @Override
