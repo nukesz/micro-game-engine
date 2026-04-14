@@ -4,4 +4,5 @@ Supported features:
 * Create window
 * Create simple shapes (points, lines, triangles, squares, etc)
 * Input handling 
+* Textures
 * ..
