@@ -5,21 +5,40 @@ import org.lwjgl.system.MemoryStack;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
-import static org.lwjgl.stb.STBImage.stbi_load;
+import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.stb.STBImage.*;
 
 public class Texture {
 
     private static final int NUMBER_OF_COLOR_CHANNELS = 4;
+    private int textureId;
 
     public Texture(String path) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer width = stack.mallocInt(1);
-            IntBuffer height = stack.mallocInt(1);
+            IntBuffer pWidth = stack.mallocInt(1);
+            IntBuffer pHeight = stack.mallocInt(1);
             IntBuffer channels = stack.mallocInt(1);
-            ByteBuffer buffer = stbi_load(path, width, height, channels, NUMBER_OF_COLOR_CHANNELS);
-            if (buffer == null) {
-                throw new RuntimeException("Texture file cannot be found! " + path);
+            ByteBuffer image = stbi_load(path, pWidth, pHeight, channels, NUMBER_OF_COLOR_CHANNELS);
+            if (image == null) {
+                throw new RuntimeException("Failed to load the texture file!" + System.lineSeparator() + stbi_failure_reason());
             }
+            int width = pWidth.get();
+            int height = pHeight.get();
+
+            generateTexture();
+
+            // free the image memory
+            stbi_image_free(image);
+        }
+    }
+
+    private void generateTexture() {
+        textureId = glGenTextures();
+    }
+
+    public void cleanup() {
+        if (textureId != 0) {
+            glDeleteTextures(textureId);
         }
     }
 }

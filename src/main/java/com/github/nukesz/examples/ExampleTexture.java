@@ -5,9 +5,11 @@ import com.github.nukesz.Texture;
 
 public class ExampleTexture extends Example {
 
+    private Texture texture;
+
     @Override
     public void init(InputHandler inputHandler) {
-        Texture texture = new Texture("assets/textures/container.jpg");
+        texture = new Texture("assets/textures/container.jpg");
     }
 
     @Override
@@ -17,6 +19,7 @@ public class ExampleTexture extends Example {
 
     @Override
     public void cleanUp() {
+        texture.cleanup();
     }
 
     public static void main(String[] args) {
