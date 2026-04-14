@@ -17,6 +17,9 @@ public class Texture {
             IntBuffer height = stack.mallocInt(1);
             IntBuffer channels = stack.mallocInt(1);
             ByteBuffer buffer = stbi_load(path, width, height, channels, NUMBER_OF_COLOR_CHANNELS);
+            if (buffer == null) {
+                throw new RuntimeException("Texture file cannot be found! " + path);
+            }
         }
     }
 }

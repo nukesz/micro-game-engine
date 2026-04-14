@@ -7,7 +7,7 @@ public class ExampleTexture extends Example {
 
     @Override
     public void init(InputHandler inputHandler) {
-        Texture texture = new Texture("textures/container.jpg");
+        Texture texture = new Texture("assets/textures/container.jpg");
     }
 
     @Override
