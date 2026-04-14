@@ -18,22 +18,37 @@ public class Texture {
             IntBuffer pWidth = stack.mallocInt(1);
             IntBuffer pHeight = stack.mallocInt(1);
             IntBuffer channels = stack.mallocInt(1);
-            ByteBuffer image = stbi_load(path, pWidth, pHeight, channels, NUMBER_OF_COLOR_CHANNELS);
+            ByteBuffer image = stbi_load(path, pWidth, pHeight, channels, 0);
             if (image == null) {
                 throw new RuntimeException("Failed to load the texture file!" + System.lineSeparator() + stbi_failure_reason());
             }
             int width = pWidth.get();
             int height = pHeight.get();
 
-            generateTexture();
+            generateTexture(width, height, image);
 
             // free the image memory
             stbi_image_free(image);
         }
     }
 
-    private void generateTexture() {
+    private void generateTexture(int width, int height, ByteBuffer image) {
         textureId = glGenTextures();
+
+        bind();
+
+        // set the texture wrapping/filtering options (on the currently bound texture object)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+
+    public void bind() {
+        glBindTexture(GL_TEXTURE_2D, textureId);
     }
 
     public void cleanup() {
